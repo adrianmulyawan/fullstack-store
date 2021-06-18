@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\DashboardSettingController;
 use App\Http\Controllers\DashboardTransactionController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\HomeController;
+use App\Http\Middleware\isAdminMiddleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Bagian Halaman Utama
+// ====================== Route Halaman Utama ======================= //
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
 Route::get('/categories', [CategoryController::class, 'index'])
@@ -35,10 +37,10 @@ Route::get('/cart', [CartController::class, 'index'])
 Route::get('/success', [CartController::class, 'success'])
     ->name('success');
 
-// Bagian Register
+// ========================= Route Register ========================= //
 Route::get('/register/success', [RegisterController::class, 'success'])->name('register-success');
 
-// Bagian Dashboard
+// ====================== Route Dashboard User ====================== //
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
@@ -61,5 +63,14 @@ Route::get('/dashboard/settings', [DashboardSettingController::class, 'store'])
     ->name('dashboard-settings-store');
 Route::get('/dashboard/account', [DashboardSettingController::class, 'account'])
     ->name('dashboard-settings-account');
+
+// ====================== Route Dashboard Admin ====================== //
+Route::prefix('admin')
+    ->namespace('Admin')
+    // ->middleware(['auth', 'isAdmin'])
+    ->group(function() {
+        Route::get('/', [AdminDashboardController::class, 'index'])
+            ->name('admin-dashboard');
+    });
 
 Auth::routes();

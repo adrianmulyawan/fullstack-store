@@ -28,42 +28,43 @@
           <!-- Sidebar heading (icon aplikasi) -->
           <div class="sidebar-heading text-center">
             <img
-              src="/icon/ic_logo_dashboard.svg"
+              src="/icon/ic_admin.svg"
               alt="dahsboardLogo"
               class="my-4"
+              style="max-width: 150px"
             />
           </div>
           <!-- Halaman Navigasi Dashboard -->
           <div class="list-group list-group-flush">
             <a
-              href="{{ route('dashboard') }}"
+              href="#"
               class="list-group-item list-group-item-action"
             >
               Dashboard
             </a>
             <a
-              href="{{ route('dashboard-products') }}"
+              href="#"
               class="list-group-item list-group-item-action"
             >
-              My Product
+              Products
             </a>
             <a
-              href="{{ route('dashboard-transactions') }}"
+              href="#"
+              class="list-group-item list-group-item-action"
+            >
+              Categories
+            </a>
+            <a
+              href="#"
               class="list-group-item list-group-item-action"
             >
               Transactions
             </a>
             <a
-              href="{{ route('dashboard-settings-store') }}"
+              href="#"
               class="list-group-item list-group-item-action"
             >
-              Store Settings
-            </a>
-            <a
-              href="{{ route('dashboard-settings-account') }}"
-              class="list-group-item list-group-item-action"
-            >
-              My Account
+              Users
             </a>
             <a href="index.html" class="list-group-item list-group-item-action">
               Sign Out
@@ -127,13 +128,6 @@
                       <div class="dropdown-divider"></div>
                       <a href="/" class="dropdown-item">Logout</a>
                     </div>
-                  </li>
-                  <!-- Icon Chart -->
-                  <li class="nav-item">
-                    <a href="#" class="nav-link d-inline-block mt-2">
-                      <img src="/icon/ic_cart_filled.svg" alt="ic_cart_empty" />
-                      <div class="card-badge">3</div>
-                    </a>
                   </li>
                 </ul>
 
