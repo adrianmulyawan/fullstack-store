@@ -1,0 +1,32 @@
+// Styling global: styling yang berguna disemua halaman (font. margin, dsb)
+
+// 1. Body
+body {
+  // Font untuk semua content di body
+  // font nanti kita include di fonts.scss
+  font-family: "Poppins", sans-serif;
+}
+
+// 2. page-content: digunakan untuk banner website (Discount 50% All) memberi jarak antara navbar dan content
+.pages-content {
+  margin-top: 100px;
+}
+
+// 3. footer
+footer {
+  border-top: 1px solid #e4e4e4;
+  margin-top: 150px;
+  margin-bottom: 30px;
+
+  p {
+    color: #979797;
+    text-align: center;
+    font-weight: 300;
+    font-size: 14px;
+  }
+}
+
+// 4. Styling form
+.form-control {
+  background-color: #f3f3f3;
+}
