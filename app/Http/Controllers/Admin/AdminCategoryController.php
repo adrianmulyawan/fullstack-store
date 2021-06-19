@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\AdminCategoryRequest;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Str;
 
 class AdminCategoryController extends Controller
 {
@@ -24,6 +25,7 @@ class AdminCategoryController extends Controller
 
             // Setelah itu kita return DataTable beserta $query
             return DataTables::of($query)
+                // field dari action (Edit dan Delete)
                 ->addColumn('action', function($item){
                     return '
                         <div class="btn-group">
@@ -33,12 +35,12 @@ class AdminCategoryController extends Controller
                                 </button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="' . route('category.edit', $item->id) . '">
-                                        Sunting
+                                        Edit
                                     </a>
                                     <form action="'. route('category.destroy', $item->id) .'" method="POST">
                                         '. method_field('delete') . csrf_field() .'
                                         <button type="submit" class="dropdown-item text-danger">
-                                            Hapus
+                                            Delete
                                         </button>
                                     </form>
                                 </div>
@@ -46,6 +48,7 @@ class AdminCategoryController extends Controller
                         </div>
                     ';
                 })
+                // field untuk photo
                 ->editColumn('photo', function($item) {
                     return $item->photo ? '<img src="'. Storage::url($item->photo) .'" style="max-height: 40px;" />' : '';
                 })
@@ -64,7 +67,7 @@ class AdminCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.admin.category.create');
     }
 
     /**
@@ -73,9 +76,27 @@ class AdminCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdminCategoryRequest $request)
     {
-        //
+        $data = $request->all();
+
+        // generate slug dari name (nama category yang diinputkan)
+        $data['slug'] = Str::slug($request->input('name'));
+
+        // simpan file image kedalam db
+        $data['photo'] = $request->file('photo')->store('assets/category', 'public');
+
+        // Create Data Category
+        $category = Category::create($data);
+
+        // Beri reponse jika data berhasil/gagal dibuat
+        if ($category) {
+            session()->flash('success', 'Category Berhasil Ditambahkan');
+            return redirect()->route('category.index');
+        } else {
+            session()->flash('failed', 'Category Berhasil Ditambahkan');
+            return redirect()->route('category.index');
+        }
     }
 
     /**
@@ -97,7 +118,8 @@ class AdminCategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $item = Category::findOrFail($id);
+        return view('pages.admin.category.edit', compact('item'));
     }
 
     /**
@@ -107,9 +129,27 @@ class AdminCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AdminCategoryRequest $request, $id)
     {
-        //
+        $data = $request->all();
+
+        // generate slug dari name (nama category yang diinputkan)
+        $data['slug'] = Str::slug($request->input('name'));
+
+        // simpan file image kedalam db
+        $data['photo'] = $request->file('photo')->store('assets/category', 'public');
+
+        // Create Data Category
+        $item = Category::findOrFail($id)->update($data);
+
+        // Beri reponse jika data berhasil/gagal dibuat
+        if ($item) {
+            session()->flash('success', 'Category Berhasil Diupdate');
+            return redirect()->route('category.index');
+        } else {
+            session()->flash('failed', 'Category Gagal Diupdate');
+            return redirect()->route('category.index');
+        }
     }
 
     /**
@@ -120,6 +160,15 @@ class AdminCategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = Category::findOrFail($id);
+        $item->delete();
+
+        if ($item) {
+            session()->flash('success', 'Category Berhasil Dihapus');
+            return redirect()->route('category.index');
+        } else {
+            session()->flash('failed', 'Category Gagal Dihapus');
+            return redirect()->route('category.index');
+        }
     }
 }

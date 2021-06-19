@@ -14,6 +14,9 @@
             <p class="dashboard-subtitle">
                 List of Categories
             </p>
+            <p data-aos="fade-up" class="dashboard-title">
+                @include('includes.flash-message')
+            </p>
         </div>
         <div class="dashboard-content">
             <div class="row">
