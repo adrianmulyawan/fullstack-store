@@ -17,6 +17,8 @@
     <link href="/style/main.css" rel="stylesheet" />
     @stack('addon-style')
 
+    {{-- CDN Bootstrap Data Table --}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css"/>
   </head>
 
   <body>
@@ -37,8 +39,8 @@
           <!-- Halaman Navigasi Dashboard -->
           <div class="list-group list-group-flush">
             <a
-              href="#"
-              class="list-group-item list-group-item-action"
+              href="{{ route('admin-dashboard') }}"
+              class="list-group-item list-group-item-action {{ request()->is('admin') ? 'active' : '' }}"
             >
               Dashboard
             </a>
@@ -49,8 +51,8 @@
               Products
             </a>
             <a
-              href="#"
-              class="list-group-item list-group-item-action"
+              href="{{ route('category.index') }}"
+              class="list-group-item list-group-item-action {{ request()->is('admin/category') ? 'active' : '' }}"
             >
               Categories
             </a>
@@ -122,11 +124,13 @@
                       <a href="dashboard.html" class="dropdown-item"
                         >Dashboard</a
                       >
-                      <a href="dashboard-account.html" class="dropdown-item"
-                        >Settings</a
-                      >
+                      <a href="dashboard-account.html" class="dropdown-item">
+                        Settings
+                      </a>
                       <div class="dropdown-divider"></div>
-                      <a href="/" class="dropdown-item">Logout</a>
+                      <a href="/" class="dropdown-item">
+                        Logout
+                      </a>
                     </div>
                   </li>
                 </ul>
@@ -134,13 +138,19 @@
                 <!-- Mobile Menu -->
                 <ul class="navbar-nav d-block d-lg-none">
                   <li class="nav-item">
-                    <a href="#" class="nav-link">Hi, Mandalika</a>
+                    <a href="#" class="nav-link">
+                      Hi, Mandalika
+                    </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" class="nav-link d-inline-block">Cart</a>
+                    <a href="#" class="nav-link d-inline-block">
+                      Cart
+                    </a>
                   </li>
                   <li class="nav-item">
-                    <a href="/" class="nav-link d-inline-block">Logout</a>
+                    <a href="/" class="nav-link d-inline-block">
+                      Logout
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -156,9 +166,11 @@
     @stack('prepend-script')
 
     <!-- Bootstrap core JavaScript -->
-    <script src="/vendor/jquery/jquery.slim.min.js"></script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
     <!-- Panggil bundle script js -->
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    {{-- Script Data Table --}}
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
     <!-- Panggil AOS library script -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>

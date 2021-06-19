@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
@@ -10,8 +11,8 @@ use App\Http\Controllers\DashboardSettingController;
 use App\Http\Controllers\DashboardTransactionController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\HomeController;
-use App\Http\Middleware\isAdminMiddleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,11 +67,12 @@ Route::get('/dashboard/account', [DashboardSettingController::class, 'account'])
 
 // ====================== Route Dashboard Admin ====================== //
 Route::prefix('admin')
-    ->namespace('Admin')
-    // ->middleware(['auth', 'isAdmin'])
-    ->group(function() {
-        Route::get('/', [AdminDashboardController::class, 'index'])
-            ->name('admin-dashboard');
-    });
+->namespace('Admin')
+->group(function() {
+    // Route direct ke halaman utama dashboard admin
+    Route::get('/', [AdminDashboardController::class, 'index'])
+        ->name('admin-dashboard');
+    Route::resource('/category', '\App\Http\Controllers\Admin\AdminCategoryController');
+});
 
 Auth::routes();

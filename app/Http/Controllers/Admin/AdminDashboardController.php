@@ -7,7 +7,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class AdminDashboardController extends Controller
 {
     public function index() {
         // Menghitung Jumlah Customer
@@ -24,4 +24,6 @@ class DashboardController extends Controller
             )
         );
     }
+
+
 }

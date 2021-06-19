@@ -36,12 +36,12 @@
           <a class="nav-link" href="#">Rewards</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="register.html">Sign Up</a>
+          <a class="nav-link" href="{{ route('register') }}">Sign Up</a>
         </li>
         <li class="nav-item">
           <a
             class="btn btn-success nav-link px-4 text-white"
-            href="login.html"
+            href="{{ route('login') }}"
           >
             Sign In
           </a>
