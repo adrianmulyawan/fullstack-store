@@ -72,10 +72,15 @@ Route::prefix('admin')
     // Route direct ke halaman utama dashboard admin
     Route::get('/', [AdminDashboardController::class, 'index'])
         ->name('admin-dashboard');
+
     // Resource Category
     Route::resource('/category', '\App\Http\Controllers\Admin\AdminCategoryController');
+
     // Resource User
     Route::resource('/user', '\App\Http\Controllers\Admin\AdminUserController');
+
+    // Resource Product
+    Route::resource('/product', '\App\Http\Controllers\Admin\AdminProductController');
 });
 
 Auth::routes();
