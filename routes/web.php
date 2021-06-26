@@ -81,6 +81,9 @@ Route::prefix('admin')
 
     // Resource Product
     Route::resource('/product', '\App\Http\Controllers\Admin\AdminProductController');
+
+    // Resource Product Gallery
+    Route::resource('/product-gallery', '\App\Http\Controllers\Admin\AdminProductGalleryController');
 });
 
 Auth::routes();
