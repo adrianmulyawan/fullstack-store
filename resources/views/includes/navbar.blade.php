@@ -64,7 +64,7 @@
               data-toggle="dropdown"
             >
               <img
-                src="images/user_pc.png"
+                src="/images/user_pc.png"
                 alt="user-pic"
                 class="rounded-circle mr-2 profile-picture"
               />
@@ -92,7 +92,7 @@
           <!-- Icon Chart -->
           <li class="nav-item">
             <a href="#" class="nav-link d-inline-block mt-2">
-              <img src="icon/ic_cart.svg" alt="ic_cart_empty" />
+              <img src="/icon/ic_cart.svg" alt="ic_cart_empty" />
             </a>
           </li>
         </ul>
