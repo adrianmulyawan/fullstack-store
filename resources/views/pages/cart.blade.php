@@ -45,6 +45,8 @@
                 </tr>
               </thead>
               <tbody>
+                {{-- Inisiasi harga awal produk --}}
+                @php $totalPrice = 0 @endphp
                 @foreach ($carts as $cart)
                   <tr>
                     <td style="width: 25%">
@@ -80,6 +82,8 @@
                       </form>
                     </td>
                   </tr>
+                  {{-- Jumlahkan transaksi --}}
+                  @php $totalPrice += $cart->product->price @endphp
                 @endforeach
               </tbody>
             </table>
@@ -95,130 +99,186 @@
             <h2 class="mb-4">Shipping Details</h2>
           </div>
         </div>
-        <div class="row mb-2" data-aos="fade-up" data-aos-delay="200">
-          <!-- Address -->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="addressOne">Address 1</label>
-              <input
-                type="text"
-                class="form-control"
-                id="addressOne"
-                name="addressOne"
-                value="Setra Duta Cemara"
-              />
+        {{-- Buat form untuk memasukan inputan alamat user --}}
+        <form action="" id="locations">
+          <div class="row mb-2" data-aos="fade-up" data-aos-delay="200">
+            <!-- Address -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="address_one">Address 1</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="address_one"
+                  name="address_one"
+                  value="Setra Duta Cemara"
+                />
+              </div>
             </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="addressTwo">Address 2</label>
-              <input
-                type="text"
-                class="form-control"
-                id="addressTwo"
-                name="addressTwo"
-                value="Blok B2 No 4"
-              />
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="address_two">Address 2</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="address_two"
+                  name="address_two"
+                  value="Blok B2 No 4"
+                />
+              </div>
+            </div>
+
+            <!-- Province, Cit, Postal Code -->
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="provinces_id">Province</label>
+                {{-- Atur Select dan option Provinces yang sudah dibuat di vue --}}
+                <select name="provinces_id" id="provinces_id" class="form-control" v-if="provinces" v-model="provinces_id">
+                  <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
+                </select>
+                <select v-else class="form-control"></select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="regencies_id">City</label>
+                {{-- Atur Select dan option Regencies yang sudah dibuat disini --}}
+                <select name="regencies_id" id="regencies_id" class="form-control" v-if="regencies" v-model="regencies_id">
+                  <option v-for="regency in regencies" :value="regency.id">@{{ regency.name }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="zip_code">Postal Code</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="zip_code"
+                  name="zip_code"
+                  value="78991"
+                />
+              </div>
+            </div>
+
+            <!-- Country & Mobile -->
+            <div class="col md-6">
+              <div class="form-group">
+                <label for="country">Country</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="country"
+                  name="country"
+                  value="Indonesia"
+                />
+              </div>
+            </div>
+            <div class="col md-6">
+              <div class="form-group">
+                <label for="phone_number">Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="phone_number"
+                  name="phone_number"
+                  value="+6282154590559"
+                />
+              </div>
             </div>
           </div>
 
-          <!-- Province, Cit, Postal Code -->
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="province">Province</label>
-              <select name="province" id="province" class="form-control">
-                <option value="West Java">West Java</option>
-                <option value="Central Java">Central Java</option>
-                <option value="East Java">East Java</option>
-              </select>
+          <!-- Payments Informations -->
+          <div class="row" data-aos="fade-up" data-aos-delay="150">
+            <div class="col-12">
+              <hr />
+            </div>
+            <div class="col-12">
+              <h2 class="mb-2">Payments Informations</h2>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="city">City</label>
-              <select name="city" id="city" class="form-control">
-                <option value="Bandung">Bandung</option>
-                <option value="Semarang">Semarang</option>
-                <option value="Surabaya">Surabaya</option>
-              </select>
+          <div class="row" data-aos="fade-up" data-aos-delay="200">
+            <div class="col-4 col-md-2">
+              <div class="product-title">Rp 0</div>
+              <div class="product-subtitle">Country Tax</div>
+            </div>
+            <div class="col-4 col-md-3">
+              <div class="product-title">Rp 0</div>
+              <div class="product-subtitle">Product Insurance</div>
+            </div>
+            <div class="col-4 col-md-2">
+              <div class="product-title">Rp 0</div>
+              <div class="product-subtitle">Ship to Jakarta</div>
+            </div>
+            <div class="col-4 col-md-2">
+              <div class="product-title text-success">
+                Rp {{ number_format($totalPrice ?? 0) }}.00
+              </div>
+              <div class="product-subtitle">Total</div>
+            </div>
+            <div class="col-8 col-md-3">
+              <a
+                href="success.html"
+                class="btn btn-success mt-4 px-4 btn-block"
+              >
+                Checkout Now
+              </a>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="postalCode">Postal Code</label>
-              <input
-                type="text"
-                class="form-control"
-                id="postalCode"
-                name="postalCode"
-                value="78991"
-              />
-            </div>
-          </div>
-
-          <!-- Country & Mobile -->
-          <div class="col md-6">
-            <div class="form-group">
-              <label for="country">Country</label>
-              <input
-                type="text"
-                class="form-control"
-                id="country"
-                name="country"
-                value="Indonesia"
-              />
-            </div>
-          </div>
-          <div class="col md-6">
-            <div class="form-group">
-              <label for="number">Number</label>
-              <input
-                type="text"
-                class="form-control"
-                id="number"
-                name="number"
-                value="+6282154590559"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Payments Informations -->
-        <div class="row" data-aos="fade-up" data-aos-delay="150">
-          <div class="col-12">
-            <hr />
-          </div>
-          <div class="col-12">
-            <h2 class="mb-2">Payments Informations</h2>
-          </div>
-        </div>
-        <div class="row" data-aos="fade-up" data-aos-delay="200">
-          <div class="col-4 col-md-2">
-            <div class="product-title">$10</div>
-            <div class="product-subtitle">Country Tax</div>
-          </div>
-          <div class="col-4 col-md-3">
-            <div class="product-title">$280</div>
-            <div class="product-subtitle">Product Insurance</div>
-          </div>
-          <div class="col-4 col-md-2">
-            <div class="product-title">$580</div>
-            <div class="product-subtitle">Ship to Jakarta</div>
-          </div>
-          <div class="col-4 col-md-2">
-            <div class="product-title text-success">$392,409</div>
-            <div class="product-subtitle">Total</div>
-          </div>
-          <div class="col-8 col-md-3">
-            <a
-              href="success.html"
-              class="btn btn-success mt-4 px-4 btn-block"
-            >
-              Checkout Now
-            </a>
-          </div>
-        </div>
+        </form>
       </div>
     </section>
   </div>
 @endsection
+
+@push('addon-script')
+  <!-- Panggil Vue JS -->
+  <script src="/vendor/vue/vue.js"></script>
+  <script src="https://unpkg.com/vue-toasted"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    let locations = new Vue({
+      el: "#locations",
+      // mounted: script yang dijalankan jika vue js muncul
+      mounted() {
+        // Panggil libraray AOS.Init
+        AOS.init();
+        this.getProvincesData();
+      },
+      // menyimpan variabel di javascript
+      data: {
+        provinces: null,
+        regencies: null,
+        provinces_id: null,
+        regencies_id: null
+      },
+      // method: menyimpan method-method vue js
+      methods: {
+        // tampilkan datanya disini (ambil data province & regencies)
+        getProvincesData() {
+          // let self = this; -> agar bisa dibaaca oleh axios
+          let self = this;
+          axios.get('{{ route('api-provinces') }}')
+              .then(function(response){
+                self.provinces = response.data;
+              })
+        },
+        getRegenciesData() {
+          // let self = this; -> agar bisa dibaaca oleh axios
+          let self = this;
+          axios.get('{{ url('api/regencies') }}/' + self.provinces_id)
+              .then(function(response){
+                self.regencies = response.data;
+              })
+        },
+      },
+      // WATCH: jika ada perubahan data maka akan dilakukan sesuatu
+      watch: {
+        provinces_id: function(val, oldVal) {
+          this.regencies_id = null;
+          this.getRegenciesData();
+        }
+      }
+    });
+  </script>
+@endpush
