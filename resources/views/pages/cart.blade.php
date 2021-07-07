@@ -100,7 +100,9 @@
           </div>
         </div>
         {{-- Buat form untuk memasukan inputan alamat user --}}
-        <form action="" id="locations">
+        <form action="{{ route('checkout') }}" id="locations" enctype="multipart/form-data" method="POST">
+          @csrf
+          <input type="hidden" name="total_price" value="{{ $totalPrice }}">
           <div class="row mb-2" data-aos="fade-up" data-aos-delay="200">
             <!-- Address -->
             <div class="col-md-6">
@@ -111,7 +113,7 @@
                   class="form-control"
                   id="address_one"
                   name="address_one"
-                  value="Setra Duta Cemara"
+                  value="Alamat"
                 />
               </div>
             </div>
@@ -123,7 +125,7 @@
                   class="form-control"
                   id="address_two"
                   name="address_two"
-                  value="Blok B2 No 4"
+                  value="Alamat Detail"
                 />
               </div>
             </div>
@@ -156,7 +158,7 @@
                   class="form-control"
                   id="zip_code"
                   name="zip_code"
-                  value="78991"
+                  value="Code Post"
                 />
               </div>
             </div>
@@ -170,7 +172,7 @@
                   class="form-control"
                   id="country"
                   name="country"
-                  value="Indonesia"
+                  value="Country"
                 />
               </div>
             </div>
@@ -182,7 +184,7 @@
                   class="form-control"
                   id="phone_number"
                   name="phone_number"
-                  value="+6282154590559"
+                  value="Phone Number"
                 />
               </div>
             </div>
@@ -217,12 +219,13 @@
               <div class="product-subtitle">Total</div>
             </div>
             <div class="col-8 col-md-3">
-              <a
+              <button
+                type="submit"
                 href="success.html"
                 class="btn btn-success mt-4 px-4 btn-block"
               >
                 Checkout Now
-              </a>
+              </button>
             </div>
           </div>
         </form>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardProductController;
 use App\Http\Controllers\DashboardSettingController;
@@ -40,44 +41,55 @@ Route::get('/details/{id}', [DetailController::class, 'index'])
 Route::post('/details/{id}', [DetailController::class, 'add'])
     ->name('detail-add');
 
-Route::get('/cart', [CartController::class, 'index'])
-    ->name('cart');
-Route::delete('/cart/{id}', [CartController::class, 'delete'])
-    ->name('cart-delete');
-    
+// Checkout Controller
+Route::post('/checkout/callback', [CheckoutController::class, 'callback'])
+    ->name('midtrans-callback');
+
 Route::get('/success', [CartController::class, 'success'])
     ->name('success');
 
 // ========================= Route Register ========================= //
 Route::get('/register/success', [RegisterController::class, 'success'])->name('register-success');
 
-// ====================== Route Dashboard User ====================== //
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->name('dashboard');
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('/cart', [CartController::class, 'index'])
+        ->name('cart');
+    Route::delete('/cart/{id}', [CartController::class, 'delete'])
+        ->name('cart-delete');
 
-// Dashboard Product
-Route::get('/dashboard/products', [DashboardProductController::class, 'index'])
-    ->name('dashboard-products');
-Route::get('/dashboard/products/create', [DashboardProductController::class, 'create'])
-    ->name('dashboard-products-create');
-Route::get('/dashboard/products/{id}', [DashboardProductController::class, 'details'])
-    ->name('dashboard-products-details');
+    // Checkout Controller
+    Route::post('/checkout', [CheckoutController::class, 'process'])
+        ->name('checkout');
 
-// Dashboard Transactions
-Route::get('/dashboard/transactions', [DashboardTransactionController::class, 'index'])
-    ->name('dashboard-transactions');
-Route::get('/dashboard/transactions/{id}', [DashboardTransactionController::class, 'details'])
-    ->name('dashboard-transaction-details');
+    // ===================== Route Dashboard User ===================== //
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
 
-// Dashboard Settings
-Route::get('/dashboard/settings', [DashboardSettingController::class, 'store'])
-    ->name('dashboard-settings-store');
-Route::get('/dashboard/account', [DashboardSettingController::class, 'account'])
-    ->name('dashboard-settings-account');
+    // Dashboard Product
+    Route::get('/dashboard/products', [DashboardProductController::class, 'index'])
+        ->name('dashboard-products');
+    Route::get('/dashboard/products/create', [DashboardProductController::class, 'create'])
+        ->name('dashboard-products-create');
+    Route::get('/dashboard/products/{id}', [DashboardProductController::class, 'details'])
+        ->name('dashboard-products-details');
+
+    // Dashboard Transactions
+    Route::get('/dashboard/transactions', [DashboardTransactionController::class, 'index'])
+        ->name('dashboard-transactions');
+    Route::get('/dashboard/transactions/{id}', [DashboardTransactionController::class, 'details'])
+        ->name('dashboard-transaction-details');
+
+    // Dashboard Settings
+    Route::get('/dashboard/settings', [DashboardSettingController::class, 'store'])
+        ->name('dashboard-settings-store');
+    Route::get('/dashboard/account', [DashboardSettingController::class, 'account'])
+        ->name('dashboard-settings-account');
+});
 
 // ====================== Route Dashboard Admin ====================== //
 Route::prefix('admin')
 ->namespace('Admin')
+->middleware(['auth', 'admin'])
 ->group(function() {
     // Route direct ke halaman utama dashboard admin
     Route::get('/', [AdminDashboardController::class, 'index'])
