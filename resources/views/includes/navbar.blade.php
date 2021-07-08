@@ -96,18 +96,27 @@
                   <img src="/icon/ic_cart.svg" alt="ic_cart_empty" />
                 </a>
             </li>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+              @csrf
+            </form>
         </ul>
 
         <!-- Mobile Menu -->
         <ul class="navbar-nav d-block d-lg-none">
             <li class="nav-item">
-                <a href="#" class="nav-link">Hi, Mandalika</a>
+                <a href="{{ route('dashboard') }}" class="nav-link">
+                  Hi, {{ Auth::user()->name }}
+                </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link d-inline-block">Cart</a>
+                <a href="{{ route('cart') }}" class="nav-link d-inline-block">Cart</a>
             </li>
             <li class="nav-item">
-                <a href="/" class="nav-link d-inline-block">Logout</a>
+                <a class="nav-link d-inline-block" href="{{ route('logout') }}" 
+                   onclick="event.preventDefault(); 
+                                 document.getElementById('logout-form').submit();">>
+                  Logout
+                </a>
             </li>
         </ul>
       @endauth

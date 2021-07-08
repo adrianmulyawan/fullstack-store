@@ -68,7 +68,7 @@
                     <h5 class="mb-3">Recent Transaction</h5>
 
                     <!-- Loop Transactions Terakhir -->
-                    @foreach ($transaction_data as $transaction)
+                    @forelse ($transaction_data as $transaction)
                         <a
                             href="{{ route('dashboard-transaction-details', $transaction->id) }}"
                             class="card card-list d-block"
@@ -97,7 +97,11 @@
                                 </div>
                             </div>
                         </a>
-                    @endforeach
+                    @empty
+                        <p class="text-center">
+                            No transactions have been made yet
+                        </p>
+                    @endforelse
                 </div>
             </div>
         </div>
