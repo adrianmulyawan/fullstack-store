@@ -15,6 +15,12 @@ data-aos="fade-up"
             <h2 class="dashboard-title">My Products</h2>
             <p class="dashboard-subtitle">Manage it well and get money</p>
         </div>
+        {{-- Laravel Flash Message --}}
+        <div class="row">
+            <p data-aos="fade-up" class="dashboard-title">
+                @include('includes.flash-message')
+            </p>
+        </div>
         <!-- Content My Dashboard -->
         <div class="dashboard-content">
             <!-- Button Add New Product -->
@@ -30,81 +36,33 @@ data-aos="fade-up"
             </div>
             <!-- Card Product -->
             <div class="row mt-4">
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <a
-                    href="dashboard-products-details.html"
-                    class="card card-dashboard-product d-block"
-                >
-                    <div class="card-body">
-                    <img
-                        src="/images/my-products/my-product1.png"
-                        class="w-100 mb-2"
-                    />
-                    <div class="product-title">Shirup Marzzan</div>
-                    <div class="product-category">Foods</div>
+                @forelse ($products as $product)
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <a
+                            href="{{ route('dashboard-products-details', $product->id) }}"
+                            class="card card-dashboard-product d-block"
+                        >
+                            <div class="card-body">
+                                <img
+                                    src="{{ Storage::url($product->galleries->first()->photos ?? '') }}"
+                                    class="w-100 mb-2"
+                                />
+                                <div class="product-title">
+                                    {{ $product->name }}
+                                </div>
+                                <div class="product-category">
+                                    {{ $product->category->name }}
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <a
-                    href="dashboard-products-details.html"
-                    class="card card-dashboard-product d-block"
-                >
-                    <div class="card-body">
-                    <img
-                        src="/images/my-products/my-product2.png"
-                        class="w-100 mb-2"
-                    />
-                    <div class="product-title">Shirup Marzzan</div>
-                    <div class="product-category">Foods</div>
+                @empty
+                    <div class="col-12 text-center">
+                        <p>
+                            There is no product you added yet
+                        </p>
                     </div>
-                </a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <a
-                    href="dashboard-products-details.html"
-                    class="card card-dashboard-product d-block"
-                >
-                    <div class="card-body">
-                    <img
-                        src="/images/my-products/my-product3.png"
-                        class="w-100 mb-2"
-                    />
-                    <div class="product-title">Shirup Marzzan</div>
-                    <div class="product-category">Foods</div>
-                    </div>
-                </a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <a
-                    href="dashboard-products-details.html"
-                    class="card card-dashboard-product d-block"
-                >
-                    <div class="card-body">
-                        <img
-                            src="/images/my-products/my-product4.png"
-                            class="w-100 mb-2"
-                        />
-                        <div class="product-title">Shirup Marzzan</div>
-                        <div class="product-category">Foods</div>
-                    </div>
-                </a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <a
-                    href="dashboard-products-details.html"
-                    class="card card-dashboard-product d-block"
-                >
-                    <div class="card-body">
-                        <img
-                            src="/images/my-products/my-product5.png"
-                            class="w-100 mb-2"
-                        />
-                        <div class="product-title">Shirup Marzzan</div>
-                        <div class="product-category">Foods</div>
-                    </div>
-                </a>
-                </div>
+                @endforelse
             </div>
         </div>
     </div>

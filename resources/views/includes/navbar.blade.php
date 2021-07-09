@@ -92,9 +92,17 @@
             </li>
             <!-- Icon Chart -->
             <li class="nav-item">
-                <a href="{{ route('cart') }}" class="nav-link d-inline-block mt-2">
-                  <img src="/icon/ic_cart.svg" alt="ic_cart_empty" />
-                </a>
+              <a href="{{ route('cart') }}" class="nav-link d-inline-block mt-2">
+                @php
+                  $carts = \App\Models\Cart::where('users_id', Auth::user()->id)->count();
+                @endphp
+                @if ($carts > 0)
+                  <img src="/icon/ic_cart_filled.svg" alt="ic_cart" />
+                  <div class="card-badge">{{ $carts }}</div>
+                @else
+                  <img src="/icon/ic_cart.svg" alt="ic_cart" />
+                @endif
+              </a>
             </li>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
               @csrf
