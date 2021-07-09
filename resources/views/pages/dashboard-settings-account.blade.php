@@ -13,13 +13,18 @@ data-aos="fade-up"
         <div class="dashboard-heading">
             <h2 class="dashboard-title">My Account</h2>
             <p class="dashboard-subtitle">Update your current profile</p>
+            {{-- Laravel Flash Message --}}
+            <p data-aos="fade-up" class="dashboard-title">
+                @include('includes.flash-message')
+            </p>
         </div>
         <!-- Store My Account Content -->
         <div class="dashboard-content">
             <!-- Form -->
             <div class="row">
                 <div class="col-12">
-                    <form action="#">
+                    <form action="{{ route('dashboard-settings-redirect', 'dashboard-settings-account')}}" method="POST" enctype="multipart/form-data" id="locations">
+                        @csrf
                         <div class="card">
                             <div class="card-body">
                                 <!-- Contentn My Account -->
@@ -33,7 +38,7 @@ data-aos="fade-up"
                                             class="form-control"
                                             id="name"
                                             name="name"
-                                            value="Adrian Mulyawan"
+                                            value="{{ $user->name }}"
                                         />
                                         </div>
                                     </div>
@@ -45,7 +50,7 @@ data-aos="fade-up"
                                             class="form-control"
                                             id="email"
                                             name="email"
-                                            value="adrianmulyawan666@gmail.com"
+                                            value="{{ $user->email }}"
                                         />
                                         </div>
                                     </div>
@@ -53,25 +58,25 @@ data-aos="fade-up"
                                     <!-- 2. Address -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                        <label for="addressOne">Address 1</label>
+                                        <label for="address_one">Address 1</label>
                                         <input
                                             type="text"
                                             class="form-control"
-                                            id="addressOne"
-                                            name="addressOne"
-                                            value="Setra Duta Cemara"
+                                            id="address_one"
+                                            name="address_one"
+                                            value="{{ $user->address_one }}"
                                         />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                        <label for="addressTwo">Address 2</label>
+                                        <label for="address_two">Address 2</label>
                                         <input
                                             type="text"
                                             class="form-control"
-                                            id="addressTwo"
-                                            name="addressTwo"
-                                            value="Blok B2 No 4"
+                                            id="address_two"
+                                            name="address_two"
+                                            value="{{ $user->address_two }}"
                                         />
                                         </div>
                                     </div>
@@ -79,44 +84,37 @@ data-aos="fade-up"
                                     <!-- 3. Province, City, Postal Code -->
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                        <label for="province">Province</label>
-                                        <select
-                                            name="province"
-                                            id="province"
-                                            class="form-control"
-                                        >
-                                            <option value="West Java">West Java</option>
-                                            <option value="Central Java">
-                                            Central Java
-                                            </option>
-                                            <option value="East Java">East Java</option>
-                                        </select>
+                                            <label for="provinces_id">Province</label>
+                                            {{-- Atur Select dan option Provinces yang sudah dibuat di vue --}}
+                                            <select name="provinces_id" id="provinces_id" class="form-control" v-if="provinces" v-model="provinces_id">
+                                                <option v-for="province in provinces" :value="province.id">
+                                                    @{{ province.name }}
+                                                </option>
+                                            </select>
+                                            <select v-else class="form-control"></select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                        <label for="city">City</label>
-                                        <select
-                                            name="city"
-                                            id="city"
-                                            class="form-control"
-                                        >
-                                            <option value="Bandung">Bandung</option>
-                                            <option value="Semarang">Semarang</option>
-                                            <option value="Surabaya">Surabaya</option>
-                                        </select>
+                                            <label for="regencies_id">City</label>
+                                            {{-- Atur Select dan option Regencies yang sudah dibuat disini --}}
+                                            <select name="regencies_id" id="regencies_id" class="form-control" v-if="regencies" v-model="regencies_id">
+                                                <option v-for="regency in regencies" :value="regency.id">
+                                                    @{{ regency.name }}
+                                                </option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                        <label for="postalCode">Postal Code</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="postalCode"
-                                            name="postalCode"
-                                            value="78991"
-                                        />
+                                            <label for="zip_code">Postal Code</label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="zip_code"
+                                                name="zip_code"
+                                                value="{{ $user->zip_code }}"
+                                            />
                                         </div>
                                     </div>
 
@@ -129,19 +127,19 @@ data-aos="fade-up"
                                             class="form-control"
                                             id="country"
                                             name="country"
-                                            value="Indonesia"
+                                            value="{{ $user->country }}"
                                         />
                                         </div>
                                     </div>
                                     <div class="col md-6">
                                         <div class="form-group">
-                                        <label for="number">Number</label>
+                                        <label for="phone_number">Number</label>
                                         <input
                                             type="text"
                                             class="form-control"
-                                            id="number"
-                                            name="number"
-                                            value="+6282154590559"
+                                            id="phone_number"
+                                            name="phone_number"
+                                            value="{{ $user->phone_number }}"
                                         />
                                         </div>
                                     </div>
@@ -152,8 +150,8 @@ data-aos="fade-up"
                                     <div class="col
                                      text-right">
                                         <button
-                                        type="submit"
-                                        class="btn btn-success px-5"
+                                            type="submit"
+                                            class="btn btn-success px-5"
                                         >
                                             Save Now
                                         </button>
@@ -170,9 +168,53 @@ data-aos="fade-up"
 @endsection
 
 @push('addon-script')
-<!-- Tambahkan CKEditor (Untuk Form Description) -->
-<script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
-<script>
-    CKEDITOR.replace("descriptionProduct");
-</script>
+  <!-- Panggil Vue JS -->
+  <script src="/vendor/vue/vue.js"></script>
+  <script src="https://unpkg.com/vue-toasted"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    let locations = new Vue({
+      el: "#locations",
+      // mounted: script yang dijalankan jika vue js muncul
+      mounted() {
+        // Panggil libraray AOS.Init
+        AOS.init();
+        this.getProvincesData();
+      },
+      // menyimpan variabel di javascript
+      data: {
+        provinces: null,
+        regencies: null,
+        provinces_id: null,
+        regencies_id: null
+      },
+      // method: menyimpan method-method vue js
+      methods: {
+        // tampilkan datanya disini (ambil data province & regencies)
+        getProvincesData() {
+          // let self = this; -> agar bisa dibaaca oleh axios
+          let self = this;
+          axios.get('{{ route('api-provinces') }}')
+              .then(function(response){
+                self.provinces = response.data;
+              })
+        },
+        getRegenciesData() {
+          // let self = this; -> agar bisa dibaaca oleh axios
+          let self = this;
+          axios.get('{{ url('api/regencies') }}/' + self.provinces_id)
+              .then(function(response){
+                self.regencies = response.data;
+              })
+        },
+      },
+      // WATCH: jika ada perubahan data maka akan dilakukan sesuatu
+      watch: {
+        provinces_id: function(val, oldVal) {
+          this.regencies_id = null;
+          this.getRegenciesData();
+        }
+      }
+    });
+  </script>
 @endpush

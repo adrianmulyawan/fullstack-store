@@ -14,9 +14,7 @@ data-aos="fade-up"
         <div class="dashboard-heading">
             <h2 class="dashboard-title">My Products</h2>
             <p class="dashboard-subtitle">Manage it well and get money</p>
-        </div>
-        {{-- Laravel Flash Message --}}
-        <div class="row">
+            {{-- Laravel Flash Message --}}
             <p data-aos="fade-up" class="dashboard-title">
                 @include('includes.flash-message')
             </p>

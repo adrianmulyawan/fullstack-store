@@ -26,10 +26,19 @@ class DashboardSettingController extends Controller
         $item = Auth::user();
 
         // 3. Update semua data dari user login
-        $item->update($data);
+        $settingUpdate = $item->update($data);
 
-        // kita return datanya dari yang sudah dibuka sebelumnya 
-        // Kita menyimpan routingnya berdasarkan "route($redirect)" 
-        return redirect()->route($redirect);
+        // Beri reponse jika data berhasil/gagal dibuat
+        if ($settingUpdate) {
+            session()->flash('success', 'Edit Setting Successfully');
+            // kita return datanya dari yang sudah dibuka sebelumnya 
+            // Kita menyimpan routingnya berdasarkan "route($redirect)" 
+            return redirect()->route($redirect);
+        } else {
+            session()->flash('failed', 'Edit Setting Failed');
+            // kita return datanya dari yang sudah dibuka sebelumnya 
+            // Kita menyimpan routingnya berdasarkan "route($redirect)" 
+            return redirect()->route($redirect);
+        }
     }
 }

@@ -44,10 +44,10 @@ class DashboardProductController extends Controller
 
         // Beri reponse jika data berhasil/gagal dibuat
         if ($product) {
-            session()->flash('success', 'Product Berhasil Ditambahkan');
+            session()->flash('success', 'Store Berhasil Diupdate');
             return redirect()->route('dashboard-products');
         } else {
-            session()->flash('failed', 'Product Berhasil Ditambahkan');
+            session()->flash('failed', 'Store Gagal Diupdate');
             return redirect()->route('dashboard-products');
         }
     }

@@ -72,8 +72,7 @@
                     </td>
                     <td style="width: 20%">
                       <form 
-                        action="{{ route('cart-delete', $cart->id) }}" method="POST"
-                      >
+                        action="{{ route('cart-delete', $cart->id) }}" method="POST" enctype="multipart/form-data" id="locations">
                         @method('DELETE')
                         @csrf
                         <button type="submit" class="btn btn-remove-cart">
