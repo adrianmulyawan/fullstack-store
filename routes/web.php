@@ -94,6 +94,8 @@ Route::group(['middleware' => ['auth']], function() {
         ->name('dashboard-settings-store');
     Route::get('/dashboard/account', [DashboardSettingController::class, 'account'])
         ->name('dashboard-settings-account');
+    Route::post('/dashboard/account/{redirect}', [DashboardSettingController::class, 'update'])
+        ->name('dashboard-settings-redirect');
 });
 
 // ====================== Route Dashboard Admin ====================== //
